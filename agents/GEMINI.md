@@ -12,4 +12,6 @@ Follow this order:
 
 For install/setup requests, use `skills/apple-container/references/installation.md` and `skills/apple-container/scripts/install-container.sh`.
 
+For skill update requests, use `skills/apple-container/references/self-update.md` and `skills/apple-container/scripts/update-skill.sh`.
+
 Do not claim Docker Compose or Docker flag parity without local verification.

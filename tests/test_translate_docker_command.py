@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "skills" / "apple-container" / "scripts" / "translate-docker-command.py"
 INSTALL_SCRIPT = ROOT / "skills" / "apple-container" / "scripts" / "install-container.sh"
+UPDATE_SCRIPT = ROOT / "skills" / "apple-container" / "scripts" / "update-skill.sh"
 
 
 def translate(command):
@@ -113,6 +114,17 @@ class TranslateDockerCommandTests(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
         self.assertIn("Install Apple's native container CLI", result.stdout)
+
+    def test_update_script_is_executable_and_has_help(self):
+        self.assertTrue(UPDATE_SCRIPT.exists())
+        self.assertTrue(UPDATE_SCRIPT.stat().st_mode & 0o111)
+        result = subprocess.run(
+            [str(UPDATE_SCRIPT), "--help"],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        self.assertIn("Update the apple-container skill", result.stdout)
 
 
 if __name__ == "__main__":

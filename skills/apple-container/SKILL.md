@@ -1,6 +1,6 @@
 ---
 name: apple-container
-description: portable ai agent instructions for operating and installing apple's native container runtime from natural language, docker-style commands, and configuration adjustment requests. use when a user asks to install, set up, run, stop, restart, inspect, debug, exec into, configure, recreate, clean up, or troubleshoot local containers and images on macos with apple container, including docker-style workflows such as docker run, docker ps, docker logs, docker exec, docker build, docker pull, docker stop, and compose-like service requests.
+description: portable ai agent instructions for operating, installing, and updating apple's native container runtime workflows from natural language, docker-style commands, and configuration adjustment requests. use when a user asks to install or update this apple-container skill, set up, run, stop, restart, inspect, debug, exec into, configure, recreate, clean up, migrate from docker, or troubleshoot local containers and images on macos with apple container, including docker-style workflows such as docker run, docker ps, docker logs, docker exec, docker build, docker pull, docker stop, and compose-like service requests.
 ---
 
 # Apple Container Operator
@@ -16,6 +16,10 @@ Classify the request before acting: run, list, pull, logs, exec, stop, restart, 
 ## Installation
 
 If the user explicitly asks to install or set up Apple container, consult `references/installation.md` and use `scripts/install-container.sh`. The script installs from the official `apple/container` GitHub release package, checks Apple silicon and macOS requirements, and starts the system service unless `--no-start` is supplied. Do not install Docker Desktop as a substitute.
+
+## Self Update
+
+If the user asks to update or refresh this skill, consult `references/self-update.md` and use `scripts/update-skill.sh`. Check first with `--check` when the user only asks whether an update exists. When the user explicitly asks to update, run the updater and report the resulting revision.
 
 ## Docker As Intent Language
 
@@ -36,6 +40,7 @@ Diagnose in order: system, image, container status, logs, command/configuration,
 ## When To Consult Each Reference File
 
 - `references/intent-model.md` - classify user requests and identify missing required information.
+- `references/self-update.md` - update this skill from the upstream GitHub repository.
 - `references/installation.md` - install or upgrade Apple container from official release packages.
 - `references/command-map.md` - choose conservative Apple container commands and help checks.
 - `references/docker-compatibility.md` - translate Docker-style commands into Apple container intent.
@@ -48,6 +53,7 @@ Diagnose in order: system, image, container status, logs, command/configuration,
 ## Script Usage
 
 - Run `scripts/install-container.sh` when the user explicitly asks to install or set up Apple container.
+- Run `scripts/update-skill.sh` when the user explicitly asks to update this skill.
 - Run `scripts/detect-container.sh` to detect the local `container` CLI, version, system status, CPU architecture, and macOS version.
 - Run `scripts/inspect-state.sh` for safe read-only diagnostics.
 - Run `scripts/translate-docker-command.py "docker ps"` to convert Docker-style commands into JSON intent records.

@@ -5,7 +5,7 @@
 <h1 align="center">Apple Container Operator</h1>
 
 <p align="center">
-  Help AI agents safely understand, translate, and execute Apple native <code>container</code> workflows.
+  A problem-solving operator that helps AI agents safely understand, translate, install, update, and execute Apple native <code>container</code> workflows.
 </p>
 
 <p align="center">
@@ -29,7 +29,7 @@ It helps agents identify container intent, check local `container` capabilities,
 
 - **Natural language to container operations**: users can ask to run Postgres, enter Redis, or debug a failing app, and the agent follows a safe intent-first workflow.
 - **Docker-style to Apple container**: commands like `docker ps`, `docker logs -f app`, and `docker run ...` become conservative Apple `container` workflows.
-- **Install, migrate, and troubleshoot**: the skill can install Apple `container`, plan Docker service migrations, and diagnose local runtime failures.
+- **Install, update, migrate, and troubleshoot**: the skill can install Apple `container`, update itself, plan Docker service migrations, and diagnose local runtime failures.
 - **Safety first**: delete, cleanup, recreate, stateful database migration, and multi-target operations require explicit scope and confirmation.
 
 ## What It Supports
@@ -38,6 +38,7 @@ It helps agents identify container intent, check local `container` capabilities,
 - Docker-style command translation as an intent language.
 - Local container and image lifecycle management.
 - Guided Apple container installation from the official signed installer package.
+- Self-update support for the Apple Container Operator skill.
 - Configuration change planning for ports, env vars, volumes, commands, names, working directories, and image tags.
 - Troubleshooting workflows for common runtime, image, command, network, and mount issues.
 - Safety rules for destructive or multi-target operations.
@@ -52,6 +53,16 @@ Send this prompt to your AI coding agent:
 Install the Apple Container Operator skill pack from https://github.com/lizhelang/apple-container-operator.
 
 Clone the repository, inspect its README and skills/apple-container/SKILL.md, then install or reference the apple-container skill in your local agent skill/rules system so future requests about Apple container use this skill automatically. Keep it vendor-neutral and do not convert it into an OpenAI-only plugin.
+```
+
+### Update This Skill Pack
+
+Send this prompt after the skill pack is installed:
+
+```text
+Use the apple-container skill to update Apple Container Operator itself from https://github.com/lizhelang/apple-container-operator.
+
+Run the skill self-update workflow, check the current and remote revisions, update only the apple-container skill or its containing apple-container-operator git clone, then report the final revision and any verification performed.
 ```
 
 ### Install Apple Container
@@ -94,6 +105,7 @@ Agents should run:
 skills/apple-container/scripts/detect-container.sh
 skills/apple-container/scripts/install-container.sh
 skills/apple-container/scripts/inspect-state.sh
+skills/apple-container/scripts/update-skill.sh --check
 ```
 
 before assuming local support for commands or flags.
