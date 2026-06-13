@@ -4,12 +4,6 @@ Apple Container Operator is a vendor-neutral AI agent skill pack for operating A
 
 It helps agents identify container intent, check local `container` capabilities, translate conservative Docker-style commands, plan lifecycle operations, and apply safety rules before destructive actions.
 
-## Non-goals
-
-- Not a Docker replacement.
-- Not an OpenAI-only plugin.
-- Not a promise of full Docker Compose parity.
-
 ## What It Supports
 
 - Natural language operations such as running, stopping, inspecting, and debugging containers.
@@ -19,6 +13,46 @@ It helps agents identify container intent, check local `container` capabilities,
 - Configuration change planning for ports, env vars, volumes, commands, names, working directories, and image tags.
 - Troubleshooting workflows for common runtime, image, command, network, and mount issues.
 - Safety rules for destructive or multi-target operations.
+
+## Setup
+
+### Install This Skill Pack
+
+Send this prompt to your AI coding agent:
+
+```text
+Install the Apple Container Operator skill pack from https://github.com/lizhelang/apple-container-operator.
+
+Clone the repository, inspect its README and skills/apple-container/SKILL.md, then install or reference the apple-container skill in your local agent skill/rules system so future requests about Apple container use this skill automatically. Keep it vendor-neutral and do not convert it into an OpenAI-only plugin.
+```
+
+### Install Apple Container
+
+Send this prompt after the skill pack is available:
+
+```text
+Use the apple-container skill to install Apple's native container runtime on this Mac.
+
+Follow the skill's installation workflow: verify this is an Apple silicon Mac, check the macOS version, download the latest official signed installer package from apple/container GitHub Releases, install it with the macOS installer, run container --version, start the system service with container system start, and verify the result. Do not install Docker Desktop as a substitute.
+```
+
+### Install Skill Pack And Apple Container Together
+
+Send this prompt to do both in one pass:
+
+```text
+Set up Apple Container Operator end to end.
+
+First install the Apple Container Operator skill pack from https://github.com/lizhelang/apple-container-operator into your local agent skill/rules system. Then use that skill to install Apple's native container runtime on this Mac from the official apple/container GitHub Releases signed installer package. Verify Apple silicon and macOS support, install the package, run container --version, start container system service, and report the final status. Keep the workflow vendor-neutral and do not install Docker Desktop as a substitute.
+```
+
+### Migrate Docker Services To Apple Container
+
+Send this prompt to migrate existing Docker-based services:
+
+```text
+Use Apple Container Operator to inspect my Docker-based service setup, identify images, ports, env vars, volumes, commands, dependencies, and stateful data, then create and execute a safe migration plan to Apple's native container runtime without assuming full Docker or Compose parity.
+```
 
 ## Installation And Usage
 
