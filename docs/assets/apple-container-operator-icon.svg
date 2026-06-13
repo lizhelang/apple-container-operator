@@ -15,10 +15,9 @@
 
   <circle cx="256" cy="256" r="222" fill="#F5F7FB"/>
 
-  <path d="M121 420C134 344 184 304 252 304C320 304 370 344 383 420" fill="#D9DEE8"/>
-  <rect x="111" y="236" width="104" height="184" rx="52" fill="#3E4658"/>
-  <circle cx="163" cy="188" r="49" fill="#3E4658"/>
-  <circle cx="179" cy="176" r="13" fill="#F5F7FB" opacity="0.9"/>
+  <rect x="112" y="238" width="100" height="168" rx="50" fill="#3E4658"/>
+  <circle cx="164" cy="188" r="48" fill="#3E4658"/>
+  <circle cx="180" cy="176" r="13" fill="#F5F7FB" opacity="0.95"/>
 
   <rect x="202" y="96" width="252" height="252" rx="58" fill="#2F3848" opacity="0.16"/>
   <rect x="190" y="84" width="252" height="252" rx="58" fill="url(#containerPanel)"/>
@@ -35,10 +34,8 @@
   <circle cx="369" cy="219" r="25" stroke="#657087" stroke-opacity="0.12" stroke-width="8"/>
   <circle cx="369" cy="287" r="25" stroke="#657087" stroke-opacity="0.12" stroke-width="8"/>
 
-  <path d="M161 277C184 262 203 252 226 244" stroke="#3E4658" stroke-width="34" stroke-linecap="round"/>
-  <path d="M167 333C190 343 219 346 251 340" stroke="#3E4658" stroke-width="34" stroke-linecap="round"/>
-  <circle cx="229" cy="244" r="18" fill="#556073"/>
-  <circle cx="251" cy="340" r="18" fill="#556073"/>
-
-  <path d="M104 414H406" stroke="#C8CEDA" stroke-width="18" stroke-linecap="round"/>
+  <path d="M160 276C184 261 204 252 226 244" stroke="#3E4658" stroke-width="32" stroke-linecap="round"/>
+  <path d="M166 328C190 338 218 341 249 335" stroke="#3E4658" stroke-width="32" stroke-linecap="round"/>
+  <circle cx="228" cy="244" r="17" fill="#556073"/>
+  <circle cx="249" cy="335" r="17" fill="#556073"/>
 </svg>
