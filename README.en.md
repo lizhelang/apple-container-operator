@@ -1,4 +1,19 @@
-# Apple Container Operator
+<p align="center">
+  <img src="./docs/assets/apple-container-operator-icon.svg" alt="Apple Container Operator icon" width="156" />
+</p>
+
+<h1 align="center">Apple Container Operator</h1>
+
+<p align="center">
+  Help AI agents safely understand, translate, and execute Apple native <code>container</code> workflows.
+</p>
+
+<p align="center">
+  <a href="./LICENSE"><img alt="license Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue" /></a>
+  <img alt="skill apple-container" src="https://img.shields.io/badge/skill-apple--container-5B6B8C" />
+  <img alt="runtime Apple container" src="https://img.shields.io/badge/runtime-Apple%20container-111827" />
+  <img alt="agents vendor neutral" src="https://img.shields.io/badge/agents-vendor--neutral-2F8BFF" />
+</p>
 
 <p align="center">
   English | <a href="./README.md">简体中文</a>
@@ -7,6 +22,15 @@
 Apple Container Operator is a vendor-neutral AI agent skill pack for operating Apple's native `container` runtime from natural language, Docker-style workflows, and runtime configuration requests.
 
 It helps agents identify container intent, check local `container` capabilities, translate conservative Docker-style commands, plan lifecycle operations, and apply safety rules before destructive actions.
+
+> Treat Docker commands as intent, Apple `container` as the execution target, and local CLI help as the source of truth for uncertain flags.
+
+## At A Glance
+
+- **Natural language to container operations**: users can ask to run Postgres, enter Redis, or debug a failing app, and the agent follows a safe intent-first workflow.
+- **Docker-style to Apple container**: commands like `docker ps`, `docker logs -f app`, and `docker run ...` become conservative Apple `container` workflows.
+- **Install, migrate, and troubleshoot**: the skill can install Apple `container`, plan Docker service migrations, and diagnose local runtime failures.
+- **Safety first**: delete, cleanup, recreate, stateful database migration, and multi-target operations require explicit scope and confirmation.
 
 ## What It Supports
 

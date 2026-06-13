@@ -1,0 +1,50 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Apple Container Operator icon</title>
+  <desc id="desc">A rounded container runtime panel with command and agent routing symbols.</desc>
+  <defs>
+    <linearGradient id="panel" x1="96" y1="36" x2="414" y2="486" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E7EBF7"/>
+      <stop offset="0.32" stop-color="#9BA5BC"/>
+      <stop offset="1" stop-color="#596174"/>
+    </linearGradient>
+    <linearGradient id="rail" x1="120" y1="0" x2="394" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFF"/>
+      <stop offset="0.46" stop-color="#D9DEEF"/>
+      <stop offset="1" stop-color="#AEB7CD"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="138" y1="328" x2="372" y2="394" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#76F0D2"/>
+      <stop offset="1" stop-color="#2F8BFF"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="54" y="66" width="404" height="404" rx="92" fill="#243047" opacity="0.24"/>
+  <rect x="54" y="48" width="404" height="404" rx="92" fill="url(#panel)"/>
+  <rect x="70" y="64" width="372" height="372" rx="76" stroke="white" stroke-opacity="0.28" stroke-width="3"/>
+  <path d="M114 358C169 405 325 410 398 356" stroke="#343B4E" stroke-opacity="0.22" stroke-width="42" stroke-linecap="round"/>
+
+  <g>
+    <rect x="116" y="105" width="280" height="64" rx="32" fill="url(#rail)" stroke="#F8FAFF" stroke-width="5"/>
+    <rect x="116" y="208" width="280" height="64" rx="32" fill="url(#rail)" stroke="#F8FAFF" stroke-opacity="0.9" stroke-width="5"/>
+    <rect x="116" y="311" width="280" height="64" rx="32" fill="url(#accent)" stroke="#ECF7FF" stroke-opacity="0.95" stroke-width="5"/>
+  </g>
+
+  <circle cx="360" cy="137" r="25" fill="#F7F9FF"/>
+  <circle cx="360" cy="240" r="25" fill="#EAF0FF"/>
+  <circle cx="360" cy="343" r="25" fill="#FFFFFF"/>
+  <circle cx="360" cy="137" r="31" stroke="#657087" stroke-opacity="0.14" stroke-width="12"/>
+  <circle cx="360" cy="240" r="31" stroke="#657087" stroke-opacity="0.14" stroke-width="12"/>
+  <circle cx="360" cy="343" r="31" stroke="#173B69" stroke-opacity="0.16" stroke-width="12"/>
+
+  <path d="M148 338L169 354L148 370" stroke="#15384D" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M190 366H246" stroke="#15384D" stroke-width="13" stroke-linecap="round"/>
+
+  <path d="M236 132H284" stroke="#6F7890" stroke-width="12" stroke-linecap="round" opacity="0.55"/>
+  <path d="M174 235H286" stroke="#6F7890" stroke-width="12" stroke-linecap="round" opacity="0.5"/>
+
+  <circle cx="112" cy="112" r="10" fill="#75F0D1"/>
+  <circle cx="421" cy="299" r="8" fill="#7EC8FF"/>
+  <path d="M112 112C145 62 226 57 260 96" stroke="#EAF7FF" stroke-opacity="0.72" stroke-width="6" stroke-linecap="round"/>
+  <path d="M421 299C444 345 419 404 368 421" stroke="#EAF7FF" stroke-opacity="0.58" stroke-width="6" stroke-linecap="round"/>
+  <path d="M407 117L414 137L434 144L414 151L407 171L400 151L380 144L400 137L407 117Z" fill="#FFFFFF" fill-opacity="0.92"/>
+</svg>
