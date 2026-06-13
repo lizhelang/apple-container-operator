@@ -1,0 +1,15 @@
+[
+  "docker ps",
+  "docker images",
+  "docker pull redis",
+  "docker run redis",
+  "docker run --name redis -p 6379:6379 redis",
+  "docker run -e POSTGRES_PASSWORD=pass postgres",
+  "docker logs -f app",
+  "docker exec -it app sh",
+  "docker stop app",
+  "docker rm app",
+  "docker rmi redis",
+  "docker build -t my-app .",
+  "docker compose up"
+]
