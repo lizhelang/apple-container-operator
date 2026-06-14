@@ -1,0 +1,60 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Operator holding clean container panels</title>
+  <desc id="desc">A restrained human operator figure holding a clean three-layer capsule container from the outside.</desc>
+  <defs>
+    <linearGradient id="operatorBody" x1="100" y1="184" x2="170" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#384253"/>
+      <stop offset="1" stop-color="#202734"/>
+    </linearGradient>
+    <linearGradient id="operatorAccent" x1="86" y1="214" x2="214" y2="404" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#607188"/>
+      <stop offset="1" stop-color="#2C3443"/>
+    </linearGradient>
+    <linearGradient id="panelTop" x1="180" y1="126" x2="405" y2="214" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="0.52" stop-color="#DDE5EF"/>
+      <stop offset="1" stop-color="#B5C0CF"/>
+    </linearGradient>
+    <linearGradient id="panelMid" x1="174" y1="203" x2="410" y2="296" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F3F7FA"/>
+      <stop offset="0.5" stop-color="#CBD7E4"/>
+      <stop offset="1" stop-color="#95A4B7"/>
+    </linearGradient>
+    <linearGradient id="panelLow" x1="168" y1="280" x2="414" y2="374" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E9F0F5"/>
+      <stop offset="0.5" stop-color="#B6C5D4"/>
+      <stop offset="1" stop-color="#75869B"/>
+    </linearGradient>
+    <filter id="softShadow" x="64" y="90" width="392" height="354" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#1E293B" flood-opacity="0.18"/>
+    </filter>
+    <filter id="panelShadow" x="142" y="111" width="300" height="281" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#1E293B" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <circle cx="256" cy="256" r="226" fill="#F4F7F9"/>
+  <circle cx="256" cy="256" r="226" stroke="#D6DDE6" stroke-width="6"/>
+
+  <g filter="url(#softShadow)">
+    <path d="M84 407C94 326 131 281 184 281C237 281 275 326 285 407H84Z" fill="url(#operatorBody)"/>
+    <circle cx="150" cy="220" r="43" fill="#2F3848"/>
+    <path d="M119 235C128 251 145 261 166 260C185 259 201 249 209 234C202 261 180 280 150 280C121 280 99 261 92 234C100 236 110 236 119 235Z" fill="#273140"/>
+    <path d="M145 197C157 186 178 187 193 200" stroke="#5F6D80" stroke-width="10" stroke-linecap="round"/>
+    <path d="M131 307C160 273 189 249 222 232" stroke="url(#operatorAccent)" stroke-width="31" stroke-linecap="round"/>
+    <path d="M126 350C186 387 283 389 390 349" stroke="url(#operatorAccent)" stroke-width="35" stroke-linecap="round"/>
+    <circle cx="224" cy="231" r="17" fill="#56657A"/>
+    <circle cx="390" cy="349" r="18" fill="#56657A"/>
+  </g>
+
+  <g filter="url(#panelShadow)">
+    <rect x="176" y="132" width="232" height="58" rx="29" fill="url(#panelTop)"/>
+    <rect x="176" y="132" width="232" height="58" rx="29" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="5"/>
+    <rect x="176" y="209" width="232" height="58" rx="29" fill="url(#panelMid)"/>
+    <rect x="176" y="209" width="232" height="58" rx="29" stroke="#FFFFFF" stroke-opacity="0.82" stroke-width="5"/>
+    <rect x="176" y="286" width="232" height="58" rx="29" fill="url(#panelLow)"/>
+    <rect x="176" y="286" width="232" height="58" rx="29" stroke="#FFFFFF" stroke-opacity="0.74" stroke-width="5"/>
+  </g>
+
+  <path d="M117 421H399" stroke="#CAD3DF" stroke-width="16" stroke-linecap="round"/>
+</svg>

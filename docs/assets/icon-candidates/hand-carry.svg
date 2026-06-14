@@ -1,0 +1,31 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Hand carrying container icon</title>
+  <desc id="desc">A minimal hand carrying a clean container runtime icon.</desc>
+  <defs>
+    <linearGradient id="panel" x1="164" y1="72" x2="400" y2="358" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF2FA"/>
+      <stop offset="0.55" stop-color="#AAB3C4"/>
+      <stop offset="1" stop-color="#6C7588"/>
+    </linearGradient>
+    <linearGradient id="slot" x1="190" y1="0" x2="380" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FAFBFF"/>
+      <stop offset="1" stop-color="#C8CFDD"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#F7F8FB"/>
+  <rect x="138" y="72" width="260" height="260" rx="62" fill="#273142" opacity="0.12"/>
+  <rect x="126" y="60" width="260" height="260" rx="62" fill="url(#panel)"/>
+  <rect x="140" y="74" width="232" height="232" rx="48" stroke="#FFFFFF" stroke-opacity="0.42" stroke-width="3"/>
+  <rect x="166" y="105" width="178" height="47" rx="23.5" fill="url(#slot)" stroke="#FFFFFF" stroke-width="4"/>
+  <rect x="166" y="171" width="178" height="47" rx="23.5" fill="url(#slot)" stroke="#FFFFFF" stroke-opacity="0.92" stroke-width="4"/>
+  <rect x="166" y="237" width="178" height="47" rx="23.5" fill="url(#slot)" stroke="#FFFFFF" stroke-opacity="0.84" stroke-width="4"/>
+  <circle cx="321" cy="128.5" r="17" fill="#F9FAFF"/>
+  <circle cx="321" cy="194.5" r="17" fill="#EEF3FF"/>
+  <circle cx="321" cy="260.5" r="17" fill="#E4EAF6"/>
+  <circle cx="321" cy="128.5" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <circle cx="321" cy="194.5" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <circle cx="321" cy="260.5" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <path d="M80 369H204C216 369 223 354 214 345L194 325" stroke="#3D4657" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M197 368H330C354 368 374 348 374 324" stroke="#3D4657" stroke-width="34" stroke-linecap="round"/>
+  <path d="M101 408H376" stroke="#C8CEDA" stroke-width="18" stroke-linecap="round"/>
+</svg>

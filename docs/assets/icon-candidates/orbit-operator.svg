@@ -1,0 +1,35 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Orbit operator container icon</title>
+  <desc id="desc">A clean container runtime icon controlled by an external operator orbit.</desc>
+  <defs>
+    <linearGradient id="panel" x1="150" y1="80" x2="392" y2="374" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0F3FA"/>
+      <stop offset="0.55" stop-color="#A8B1C2"/>
+      <stop offset="1" stop-color="#687285"/>
+    </linearGradient>
+    <linearGradient id="slot" x1="180" y1="0" x2="362" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F9FBFF"/>
+      <stop offset="1" stop-color="#C8CFDD"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#F6F8FC"/>
+  <path d="M78 304C104 153 284 79 402 173" stroke="#D3D9E5" stroke-width="20" stroke-linecap="round"/>
+  <path d="M434 207C460 350 297 444 169 366" stroke="#D3D9E5" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="87" cy="304" r="25" fill="#3D4657"/>
+  <circle cx="425" cy="207" r="25" fill="#3D4657"/>
+  <path d="M75 304L92 292L92 316L75 304Z" fill="#F6F8FC"/>
+  <path d="M438 207L421 219L421 195L438 207Z" fill="#F6F8FC"/>
+  <rect x="138" y="96" width="256" height="256" rx="62" fill="#273142" opacity="0.13"/>
+  <rect x="126" y="84" width="256" height="256" rx="62" fill="url(#panel)"/>
+  <rect x="140" y="98" width="228" height="228" rx="48" stroke="#FFFFFF" stroke-opacity="0.42" stroke-width="3"/>
+  <rect x="166" y="129" width="176" height="46" rx="23" fill="url(#slot)" stroke="#FFFFFF" stroke-width="4"/>
+  <rect x="166" y="195" width="176" height="46" rx="23" fill="url(#slot)" stroke="#FFFFFF" stroke-opacity="0.92" stroke-width="4"/>
+  <rect x="166" y="261" width="176" height="46" rx="23" fill="url(#slot)" stroke="#FFFFFF" stroke-opacity="0.84" stroke-width="4"/>
+  <circle cx="319" cy="152" r="17" fill="#F9FAFF"/>
+  <circle cx="319" cy="218" r="17" fill="#EEF3FF"/>
+  <circle cx="319" cy="284" r="17" fill="#E4EAF6"/>
+  <circle cx="319" cy="152" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <circle cx="319" cy="218" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <circle cx="319" cy="284" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <path d="M178 399H334" stroke="#C8CEDA" stroke-width="18" stroke-linecap="round"/>
+</svg>

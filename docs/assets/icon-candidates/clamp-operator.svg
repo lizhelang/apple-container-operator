@@ -1,0 +1,35 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Clamp operator container icon</title>
+  <desc id="desc">A restrained external clamp operator holding a clean container runtime icon.</desc>
+  <defs>
+    <linearGradient id="panel" x1="166" y1="92" x2="402" y2="370" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0F3FA"/>
+      <stop offset="0.55" stop-color="#A8B1C2"/>
+      <stop offset="1" stop-color="#687285"/>
+    </linearGradient>
+    <linearGradient id="slot" x1="198" y1="0" x2="378" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F9FBFF"/>
+      <stop offset="1" stop-color="#C8CFDD"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#F6F8FC"/>
+  <path d="M95 118H168C194 118 214 139 214 164V188" stroke="#3D4657" stroke-width="26" stroke-linecap="round"/>
+  <path d="M95 394H168C194 394 214 373 214 348V324" stroke="#3D4657" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="95" cy="118" r="22" fill="#3D4657"/>
+  <circle cx="95" cy="394" r="22" fill="#3D4657"/>
+  <path d="M214 188C196 190 184 203 184 221" stroke="#3D4657" stroke-width="26" stroke-linecap="round"/>
+  <path d="M214 324C196 322 184 309 184 291" stroke="#3D4657" stroke-width="26" stroke-linecap="round"/>
+  <rect x="164" y="92" width="258" height="258" rx="62" fill="#273142" opacity="0.13"/>
+  <rect x="152" y="80" width="258" height="258" rx="62" fill="url(#panel)"/>
+  <rect x="166" y="94" width="230" height="230" rx="48" stroke="#FFFFFF" stroke-opacity="0.42" stroke-width="3"/>
+  <rect x="192" y="125" width="178" height="46" rx="23" fill="url(#slot)" stroke="#FFFFFF" stroke-width="4"/>
+  <rect x="192" y="191" width="178" height="46" rx="23" fill="url(#slot)" stroke="#FFFFFF" stroke-opacity="0.92" stroke-width="4"/>
+  <rect x="192" y="257" width="178" height="46" rx="23" fill="url(#slot)" stroke="#FFFFFF" stroke-opacity="0.84" stroke-width="4"/>
+  <circle cx="347" cy="148" r="17" fill="#F9FAFF"/>
+  <circle cx="347" cy="214" r="17" fill="#EEF3FF"/>
+  <circle cx="347" cy="280" r="17" fill="#E4EAF6"/>
+  <circle cx="347" cy="148" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <circle cx="347" cy="214" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <circle cx="347" cy="280" r="24" stroke="#687286" stroke-opacity="0.13" stroke-width="8"/>
+  <path d="M112 424H400" stroke="#C8CEDA" stroke-width="18" stroke-linecap="round"/>
+</svg>

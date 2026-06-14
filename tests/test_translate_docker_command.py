@@ -160,12 +160,76 @@ class TranslateDockerCommandTests(unittest.TestCase):
         self.assertIn("3000", detected["exposed_ports"])
         self.assertIn("APP_SECRET", detected["env_keys"])
         self.assertIn("DATABASE_URL", detected["env_keys"])
+        self.assertIn("POSTGRES_PASSWORD", detected["env_keys"])
+        self.assertIn("compose", detected)
+        self.assertIn("service_plans", detected)
+        self.assertEqual(detected["compose"][0]["named_volumes"], ["postgres_data"])
+
+        plans = {plan["service"]: plan for plan in detected["service_plans"]}
+        self.assertEqual(set(plans), {"postgres", "redis", "web"})
+        self.assertEqual(plans["web"]["source"], "build")
+        self.assertEqual(plans["web"]["build"]["context"], ".")
+        self.assertEqual(plans["web"]["build"]["dockerfile"], "Dockerfile")
+        self.assertEqual(plans["web"]["build"]["args"]["BUILD_MODE"], "production")
+        self.assertEqual(plans["web"]["depends_on"], ["postgres"])
+        self.assertEqual(plans["web"]["ports"][0]["host"], "8080")
+        self.assertEqual(plans["web"]["ports"][0]["container"], "3000")
+        self.assertIn("DATABASE_URL", plans["web"]["environment_keys"])
+        self.assertEqual(
+            plans["web"]["service_name_env_references"],
+            [
+                {
+                    "env": "DATABASE_URL",
+                    "service": "postgres",
+                    "value": "postgres://dev:dev@postgres:5432/dev",
+                }
+            ],
+        )
+        self.assertEqual(plans["postgres"]["source"], "image")
+        self.assertEqual(plans["postgres"]["image"], "postgres:18-alpine")
+        self.assertEqual(plans["postgres"]["named_volume_sources"], ["postgres_data"])
+        self.assertIn("healthcheck exists", " ".join(plans["postgres"]["run_notes"]))
+
         joined_questions = " ".join(data["confirmation_questions"])
         self.assertIn("image name/tag", joined_questions)
         self.assertIn("environment variables", joined_questions)
         self.assertIn("host port mappings", joined_questions)
         self.assertIn("persistent data mounts", joined_questions)
+        self.assertIn("web", joined_questions)
+        self.assertIn("postgres_data", joined_questions)
+        self.assertIn("8080->3000", joined_questions)
+        self.assertIn("service-discovery replacement", joined_questions)
         self.assertIn("Compose parity", " ".join(data["unsupported_or_uncertain"]))
+        self.assertIn("depends_on", " ".join(data["unsupported_or_uncertain"]))
+        self.assertIn("service names", " ".join(data["unsupported_or_uncertain"]))
+
+        recommended = data["recommended_solution"]
+        self.assertEqual(recommended["strategy"], "compose-to-apple-container-explicit-plan")
+        self.assertIn("approval_text", recommended)
+        self.assertEqual(recommended["data_migration"]["strategy"], "fresh-empty-volumes")
+        self.assertFalse(recommended["data_migration"]["included_in_shell_script"])
+        self.assertEqual(recommended["resource_names"]["network"], "sample-repo-net")
+        self.assertEqual(recommended["resource_names"]["containers"]["postgres"], "sample-repo-postgres")
+        self.assertEqual(recommended["resource_names"]["containers"]["web"], "sample-repo-web")
+        self.assertEqual(recommended["resource_names"]["volumes"]["postgres_data"], "sample-repo-postgres-data")
+        self.assertIn("web", recommended["ports"])
+        self.assertEqual(recommended["ports"]["web"][0]["detected_host"], "8080")
+        self.assertEqual(recommended["ports"]["web"][0]["container"], "3000")
+
+        commands = {command["id"]: command for command in recommended["commands"]}
+        self.assertIn("create-network", commands)
+        self.assertIn("create-volume-postgres-data", commands)
+        self.assertIn("build-web", commands)
+        self.assertIn("run-postgres", commands)
+        self.assertIn("wait-postgres", commands)
+        self.assertIn("resolve-postgres-ip-for-web", commands)
+        self.assertIn("run-web", commands)
+        self.assertIn("pg_isready", commands["wait-postgres"]["command"])
+        self.assertIn("SAMPLE_REPO_POSTGRES_IP=$(container inspect sample-repo-postgres", commands["resolve-postgres-ip-for-web"]["command"])
+        self.assertIn('"DATABASE_URL=postgres://dev:dev@${SAMPLE_REPO_POSTGRES_IP}:5432/dev"', commands["run-web"]["command"])
+        self.assertIn("set -euo pipefail", recommended["shell_script"])
+        self.assertIn("curl -fsS -I", recommended["shell_script"])
+        self.assertIn("container list --all", recommended["shell_script"])
 
 
 if __name__ == "__main__":
