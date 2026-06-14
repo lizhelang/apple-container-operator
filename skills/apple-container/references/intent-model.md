@@ -21,6 +21,7 @@ Use this model before producing commands. Confirmation means the agent should as
 | `configuration_change` | "change app port to 8080" | recreate-style Docker commands | target, change, current config | inspect and produce recreate plan | yes if destructive/stateful |
 | `debug_failure` | "app will not start" | n/a | target or failing command | read-only diagnostics first | no |
 | `docker_translation` | "translate docker run ..." | any Docker command | input command | output intent and tentative workflow | no |
+| `github_project_setup` | "use container to install this GitHub repo", "run this project with Apple container" | repository with Dockerfile or Compose files | repository URL or local checkout; service/env/ports/mounts/build details before execution | static analysis, then confirmation-gated plan | yes before clone/build/run or unclear configuration |
 | `compose_like_service` | "run app and db like compose" | `docker compose up` | service definitions | decompose into service plan | yes before creating multiple services |
 
 ## Missing Information

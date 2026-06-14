@@ -12,36 +12,15 @@
   <a href="./LICENSE"><img alt="license Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue" /></a>
   <img alt="skill apple-container" src="https://img.shields.io/badge/skill-apple--container-5B6B8C" />
   <img alt="runtime Apple container" src="https://img.shields.io/badge/runtime-Apple%20container-111827" />
-  <img alt="agents vendor neutral" src="https://img.shields.io/badge/agents-vendor--neutral-2F8BFF" />
 </p>
 
 <p align="center">
   English | <a href="./README.md">简体中文</a>
 </p>
 
-Apple Container Operator is a vendor-neutral AI agent skill pack for operating Apple's native `container` runtime from natural language, Docker-style workflows, and runtime configuration requests.
-
-It helps agents identify container intent, check local `container` capabilities, translate conservative Docker-style commands, plan lifecycle operations, and apply safety rules before destructive actions.
+Apple Container Operator helps AI agents safely understand, translate, install, update, and execute Apple native `container` workflows.
 
 > Treat Docker commands as intent, Apple `container` as the execution target, and local CLI help as the source of truth for uncertain flags.
-
-## At A Glance
-
-- **Natural language to container operations**: users can ask to run Postgres, enter Redis, or debug a failing app, and the agent follows a safe intent-first workflow.
-- **Docker-style to Apple container**: commands like `docker ps`, `docker logs -f app`, and `docker run ...` become conservative Apple `container` workflows.
-- **Install, update, migrate, and troubleshoot**: the skill can install Apple `container`, update itself, plan Docker service migrations, and diagnose local runtime failures.
-- **Safety first**: delete, cleanup, recreate, stateful database migration, and multi-target operations require explicit scope and confirmation.
-
-## What It Supports
-
-- Natural language operations such as running, stopping, inspecting, and debugging containers.
-- Docker-style command translation as an intent language.
-- Local container and image lifecycle management.
-- Guided Apple container installation from the official signed installer package.
-- Self-update support for the Apple Container Operator skill.
-- Configuration change planning for ports, env vars, volumes, commands, names, working directories, and image tags.
-- Troubleshooting workflows for common runtime, image, command, network, and mount issues.
-- Safety rules for destructive or multi-target operations.
 
 ## Setup
 
@@ -52,7 +31,7 @@ Send this prompt to your AI coding agent:
 ```text
 Install the Apple Container Operator skill pack from https://github.com/lizhelang/apple-container-operator.
 
-Clone the repository, inspect its README and skills/apple-container/SKILL.md, then install or reference the apple-container skill in your local agent skill/rules system so future requests about Apple container use this skill automatically. Keep it vendor-neutral and do not convert it into an OpenAI-only plugin.
+Clone the repository, inspect its README and skills/apple-container/SKILL.md, then install or reference the apple-container skill in your local agent skill/rules system so future requests about Apple container use this skill automatically.
 ```
 
 ### Update This Skill Pack
@@ -82,7 +61,7 @@ Send this prompt to do both in one pass:
 ```text
 Set up Apple Container Operator end to end.
 
-First install the Apple Container Operator skill pack from https://github.com/lizhelang/apple-container-operator into your local agent skill/rules system. Then use that skill to install Apple's native container runtime on this Mac from the official apple/container GitHub Releases signed installer package. Verify Apple silicon and macOS support, install the package, run container --version, start container system service, and report the final status. Keep the workflow vendor-neutral and do not install Docker Desktop as a substitute.
+First install the Apple Container Operator skill pack from https://github.com/lizhelang/apple-container-operator into your local agent skill/rules system. Then use that skill to install Apple's native container runtime on this Mac from the official apple/container GitHub Releases signed installer package. Verify Apple silicon and macOS support, install the package, run container --version, start container system service, and report the final status. Do not install Docker Desktop as a substitute.
 ```
 
 ### Migrate Docker Services To Apple Container
@@ -91,6 +70,16 @@ Send this prompt to migrate existing Docker-based services:
 
 ```text
 Use Apple Container Operator to inspect my Docker-based service setup, identify images, ports, env vars, volumes, commands, dependencies, and stateful data, then create and execute a safe migration plan to Apple's native container runtime without assuming full Docker or Compose parity.
+```
+
+### Run A GitHub Project With Apple Container
+
+Many open-source projects do not document Apple `container` directly. Send the repository link and ask the agent to analyze before running anything:
+
+```text
+Use Apple Container Operator to inspect this GitHub repository and create an Apple container setup plan: https://github.com/OWNER/REPO.
+
+Clone only after confirming the target location if needed. Analyze Dockerfile, Compose files, README, env examples, package metadata, ports, commands, and persistent data needs. Ask me for missing configuration such as service choice, environment variable values, host ports, mounts, image tag, build args, and startup command before building or running containers.
 ```
 
 ## Installation And Usage
@@ -105,6 +94,7 @@ Agents should run:
 skills/apple-container/scripts/detect-container.sh
 skills/apple-container/scripts/install-container.sh
 skills/apple-container/scripts/inspect-state.sh
+skills/apple-container/scripts/analyze-repo-setup.py /path/to/repo
 skills/apple-container/scripts/update-skill.sh --check
 ```
 
@@ -147,6 +137,10 @@ Agent behavior: follow the troubleshooting sequence: check system, image, contai
 User: "install Apple container for me"
 
 Agent behavior: verify Apple silicon and macOS support, download the latest signed installer package from the official `apple/container` GitHub release, run the macOS installer, then start and verify the system service.
+
+User: "use container to install this GitHub project: https://github.com/OWNER/REPO"
+
+Agent behavior: identify `github_project_setup`, confirm whether and where to clone, statically analyze Dockerfile, Compose, README, package metadata, and `.env.example` files in the local checkout, then list the ports, env vars, mounts, image tag, build args, startup command, and service choice that must be confirmed. It does not run builds or create containers before confirmation.
 
 ## Compatibility Disclaimer
 

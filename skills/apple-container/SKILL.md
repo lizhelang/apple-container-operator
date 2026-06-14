@@ -1,6 +1,6 @@
 ---
 name: apple-container
-description: portable ai agent instructions for operating, installing, and updating apple's native container runtime workflows from natural language, docker-style commands, and configuration adjustment requests. use when a user asks to install or update this apple-container skill, set up, run, stop, restart, inspect, debug, exec into, configure, recreate, clean up, migrate from docker, or troubleshoot local containers and images on macos with apple container, including docker-style workflows such as docker run, docker ps, docker logs, docker exec, docker build, docker pull, docker stop, and compose-like service requests.
+description: portable ai agent instructions for operating, installing, and updating apple's native container runtime workflows from natural language, docker-style commands, repository setup requests, and configuration adjustment requests. use when a user asks to install or update this apple-container skill, set up, run, stop, restart, inspect, debug, exec into, configure, recreate, clean up, migrate from docker, analyze a GitHub repository for Apple container setup, or troubleshoot local containers and images on macos with Apple container, including docker-style workflows such as docker run, docker ps, docker logs, docker exec, docker build, docker pull, docker stop, and compose-like service requests.
 ---
 
 # Apple Container Operator
@@ -11,7 +11,7 @@ Operate Apple's native `container` runtime safely and conservatively. First iden
 
 ## Intent-First Operation
 
-Classify the request before acting: run, list, pull, logs, exec, stop, restart, delete, cleanup, configuration change, debug failure, Docker-style translation, or compose-like service planning. Use `references/intent-model.md` for required inputs and confirmation rules.
+Classify the request before acting: run, list, pull, logs, exec, stop, restart, delete, cleanup, configuration change, debug failure, Docker-style translation, GitHub/repository project setup, or compose-like service planning. Use `references/intent-model.md` for required inputs and confirmation rules.
 
 ## Installation
 
@@ -24,6 +24,10 @@ If the user asks to update or refresh this skill, consult `references/self-updat
 ## Docker As Intent Language
 
 If the user says `docker` but the environment is Apple container, treat Docker syntax as a source of intent. Translate only the conservative subset you understand. When Apple container lacks an equivalent feature, say so and suggest a safe fallback. Use `references/docker-compatibility.md` and `scripts/translate-docker-command.py`.
+
+## GitHub Or Repository Project Setup
+
+If the user gives a GitHub URL, repository URL, or local source tree and asks to install, run, or set it up with Apple container, use `references/github-project-setup.md` and `scripts/analyze-repo-setup.py`. Treat this as analysis and planning first. Ask for missing configuration such as service choice, env vars, ports, mounts, build args, image tag, command, and data paths before executing system-changing commands.
 
 ## Safety Model
 
@@ -44,6 +48,7 @@ Diagnose in order: system, image, container status, logs, command/configuration,
 - `references/installation.md` - install or upgrade Apple container from official release packages.
 - `references/command-map.md` - choose conservative Apple container commands and help checks.
 - `references/docker-compatibility.md` - translate Docker-style commands into Apple container intent.
+- `references/github-project-setup.md` - analyze GitHub repositories or local source trees and plan Apple container setup with confirmation gates.
 - `references/lifecycle-operations.md` - run, list, logs, exec, stop, restart, delete, update, and cleanup workflows.
 - `references/configuration-changes.md` - plan changes to ports, env, mounts, names, tags, commands, working directory, and runtime behavior.
 - `references/troubleshooting.md` - debug failures and environment issues.
@@ -57,5 +62,6 @@ Diagnose in order: system, image, container status, logs, command/configuration,
 - Run `scripts/detect-container.sh` to detect the local `container` CLI, version, system status, CPU architecture, and macOS version.
 - Run `scripts/inspect-state.sh` for safe read-only diagnostics.
 - Run `scripts/translate-docker-command.py "docker ps"` to convert Docker-style commands into JSON intent records.
+- Run `scripts/analyze-repo-setup.py PATH_OR_URL` to analyze a GitHub URL or local checkout for Apple container setup planning.
 
 When support is uncertain, run the relevant `container ... --help` command before giving a final command.

@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "skills" / "apple-container" / "scripts" / "translate-docker-command.py"
+REPO_ANALYZER = ROOT / "skills" / "apple-container" / "scripts" / "analyze-repo-setup.py"
 INSTALL_SCRIPT = ROOT / "skills" / "apple-container" / "scripts" / "install-container.sh"
 UPDATE_SCRIPT = ROOT / "skills" / "apple-container" / "scripts" / "update-skill.sh"
 
@@ -14,6 +15,16 @@ UPDATE_SCRIPT = ROOT / "skills" / "apple-container" / "scripts" / "update-skill.
 def translate(command):
     result = subprocess.run(
         [sys.executable, str(SCRIPT), command],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    return json.loads(result.stdout)
+
+
+def analyze_repo(source):
+    result = subprocess.run(
+        [sys.executable, str(REPO_ANALYZER), str(source)],
         check=True,
         text=True,
         stdout=subprocess.PIPE,
@@ -125,6 +136,35 @@ class TranslateDockerCommandTests(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
         self.assertIn("Update the apple-container skill", result.stdout)
+
+    def test_repo_analyzer_url_requires_clone_confirmation(self):
+        data = analyze_repo("https://github.com/example/project")
+        self.assertEqual(data["intent"], "github_project_setup")
+        self.assertEqual(data["input_type"], "url")
+        self.assertTrue(data["requires_confirmation"])
+        self.assertIn("Where should the repository be cloned", " ".join(data["confirmation_questions"]))
+        self.assertIn("Repository contents are not available", " ".join(data["unsupported_or_uncertain"]))
+
+    def test_repo_analyzer_detects_project_signals_and_questions(self):
+        data = analyze_repo(ROOT / "tests" / "fixtures" / "sample_repo")
+        detected = data["detected"]
+        self.assertEqual(data["intent"], "github_project_setup")
+        self.assertEqual(data["input_type"], "local_path")
+        self.assertTrue(data["requires_confirmation"])
+        self.assertIn("Dockerfile", detected["dockerfiles"])
+        self.assertIn("compose.yaml", detected["compose_files"])
+        self.assertIn(".env.example", detected["env_examples"])
+        self.assertIn("package.json", detected["package_files"])
+        self.assertIn("node", detected["runtimes"])
+        self.assertIn("3000", detected["exposed_ports"])
+        self.assertIn("APP_SECRET", detected["env_keys"])
+        self.assertIn("DATABASE_URL", detected["env_keys"])
+        joined_questions = " ".join(data["confirmation_questions"])
+        self.assertIn("image name/tag", joined_questions)
+        self.assertIn("environment variables", joined_questions)
+        self.assertIn("host port mappings", joined_questions)
+        self.assertIn("persistent data mounts", joined_questions)
+        self.assertIn("Compose parity", " ".join(data["unsupported_or_uncertain"]))
 
 
 if __name__ == "__main__":
