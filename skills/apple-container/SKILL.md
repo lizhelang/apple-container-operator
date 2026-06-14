@@ -9,6 +9,12 @@ description: portable ai agent instructions for operating, installing, and updat
 
 Operate Apple's native `container` runtime safely and conservatively. First identify what the user wants, then check local CLI capability before producing commands with uncertain flags. Never invent unsupported Apple container flags.
 
+## Built-In Freshness Checks
+
+At the start of a request that uses this skill, run `scripts/update-skill.sh --check` as a best-effort check. If a skill update is available and the local checkout has no conflicting changes, update the skill before continuing and report the new revision. If the check fails, continue with the current skill and mention the check failure briefly.
+
+When the request involves the Apple `container` runtime, also run `scripts/install-container.sh --check` before assuming the local CLI is installed or current. If `container` is missing and the user asked to install/setup/run a container workflow, use the installation workflow. If a newer Apple container release appears available, prefer installing the latest official package when the user asked for setup/update; otherwise report the available update and continue conservatively.
+
 ## Intent-First Operation
 
 Classify the request before acting: run, list, pull, logs, exec, stop, restart, delete, cleanup, configuration change, debug failure, Docker-style translation, GitHub/repository project setup, or compose-like service planning. Use `references/intent-model.md` for required inputs and confirmation rules.
@@ -19,7 +25,7 @@ If the user explicitly asks to install or set up Apple container, consult `refer
 
 ## Self Update
 
-If the user asks to update or refresh this skill, consult `references/self-update.md` and use `scripts/update-skill.sh`. Check first with `--check` when the user only asks whether an update exists. When the user explicitly asks to update, run the updater and report the resulting revision.
+Self-update is an internal capability, not a separate user workflow. Consult `references/self-update.md` when the freshness check reports an available update or fails.
 
 ## Docker As Intent Language
 
@@ -58,7 +64,8 @@ Diagnose in order: system, image, container status, logs, command/configuration,
 ## Script Usage
 
 - Run `scripts/install-container.sh` when the user explicitly asks to install or set up Apple container.
-- Run `scripts/update-skill.sh` when the user explicitly asks to update this skill.
+- Run `scripts/update-skill.sh --check` at the start of skill use, and `scripts/update-skill.sh` when the check reports an available safe update.
+- Run `scripts/install-container.sh --check` before Apple `container` runtime operations.
 - Run `scripts/detect-container.sh` to detect the local `container` CLI, version, system status, CPU architecture, and macOS version.
 - Run `scripts/inspect-state.sh` for safe read-only diagnostics.
 - Run `scripts/translate-docker-command.py "docker ps"` to convert Docker-style commands into JSON intent records.

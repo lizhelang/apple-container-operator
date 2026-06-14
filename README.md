@@ -24,6 +24,8 @@ Apple Container Operator 让 AI agent 安全地理解、翻译、安装、更新
 
 ## 快速开始
 
+每次调用这个 skill 时，agent 应该先做一次轻量更新检查：确认 Apple Container Operator skill 是否为最新版本；涉及 Apple `container` 的操作时，也检查本机 `container` 是否已安装以及是否可能有新版本。用户不需要专门记得发送“更新 skill”的提示词。
+
 ### 安装这个 Skill Pack
 
 把下面这段发给你的 AI coding agent：
@@ -32,16 +34,6 @@ Apple Container Operator 让 AI agent 安全地理解、翻译、安装、更新
 Install the Apple Container Operator skill pack from https://github.com/lizhelang/apple-container-operator.
 
 Clone the repository, inspect its README and skills/apple-container/SKILL.md, then install or reference the apple-container skill in your local agent skill/rules system so future requests about Apple container use this skill automatically.
-```
-
-### 更新这个 Skill Pack
-
-把下面这段发给已经安装过本 skill 的 AI：
-
-```text
-Use the apple-container skill to update Apple Container Operator itself from https://github.com/lizhelang/apple-container-operator.
-
-Run the skill self-update workflow, check the current and remote revisions, update only the apple-container skill or its containing apple-container-operator git clone, then report the final revision and any verification performed.
 ```
 
 ### 安装 Apple Container
@@ -92,7 +84,7 @@ Clone only after confirming the target location if needed. Analyze Dockerfile, C
 
 ```sh
 skills/apple-container/scripts/detect-container.sh
-skills/apple-container/scripts/install-container.sh
+skills/apple-container/scripts/install-container.sh --check
 skills/apple-container/scripts/inspect-state.sh
 skills/apple-container/scripts/analyze-repo-setup.py /path/to/repo
 skills/apple-container/scripts/update-skill.sh --check

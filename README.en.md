@@ -24,6 +24,8 @@ Apple Container Operator helps AI agents safely understand, translate, install, 
 
 ## Setup
 
+Every time this skill is invoked, the agent should perform a lightweight freshness check: verify whether Apple Container Operator itself is current; when the request involves Apple `container`, also check whether the local `container` CLI is installed and whether a newer release may be available. Users should not need to remember a separate "update this skill" prompt.
+
 ### Install This Skill Pack
 
 Send this prompt to your AI coding agent:
@@ -32,16 +34,6 @@ Send this prompt to your AI coding agent:
 Install the Apple Container Operator skill pack from https://github.com/lizhelang/apple-container-operator.
 
 Clone the repository, inspect its README and skills/apple-container/SKILL.md, then install or reference the apple-container skill in your local agent skill/rules system so future requests about Apple container use this skill automatically.
-```
-
-### Update This Skill Pack
-
-Send this prompt after the skill pack is installed:
-
-```text
-Use the apple-container skill to update Apple Container Operator itself from https://github.com/lizhelang/apple-container-operator.
-
-Run the skill self-update workflow, check the current and remote revisions, update only the apple-container skill or its containing apple-container-operator git clone, then report the final revision and any verification performed.
 ```
 
 ### Install Apple Container
@@ -92,7 +84,7 @@ Agents should run:
 
 ```sh
 skills/apple-container/scripts/detect-container.sh
-skills/apple-container/scripts/install-container.sh
+skills/apple-container/scripts/install-container.sh --check
 skills/apple-container/scripts/inspect-state.sh
 skills/apple-container/scripts/analyze-repo-setup.py /path/to/repo
 skills/apple-container/scripts/update-skill.sh --check

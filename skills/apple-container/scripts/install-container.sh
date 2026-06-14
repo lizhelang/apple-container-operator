@@ -4,16 +4,18 @@ set -u
 REPO="apple/container"
 START_SERVICE=1
 FORCE=0
+CHECK_ONLY=0
 VERSION=""
 
 usage() {
   cat <<'EOF'
-Usage: install-container.sh [--force] [--no-start] [--version VERSION]
+Usage: install-container.sh [--check] [--force] [--no-start] [--version VERSION]
 
 Install Apple's native container CLI from the official apple/container GitHub
 release signed installer package.
 
 Options:
+  --check            Check local install and latest release without installing.
   --force            Reinstall even when container already exists.
   --no-start         Do not run "container system start" after installation.
   --version VERSION  Install a specific release tag, for example 0.11.0.
@@ -25,6 +27,9 @@ while [ "$#" -gt 0 ]; do
   case "$1" in
     --force)
       FORCE=1
+      ;;
+    --check)
+      CHECK_ONLY=1
       ;;
     --no-start)
       START_SERVICE=0
@@ -57,6 +62,28 @@ need_cmd() {
   fi
 }
 
+latest_release_json() {
+  if [ -n "$VERSION" ]; then
+    curl -fsSL "https://api.github.com/repos/$REPO/releases/tags/$VERSION"
+  else
+    curl -fsSL "https://api.github.com/repos/$REPO/releases/latest"
+  fi
+}
+
+json_tag_name() {
+  sed -n 's/.*"tag_name": "\([^"]*\)".*/\1/p' | head -n 1
+}
+
+json_signed_pkg_url() {
+  grep '"browser_download_url":' \
+    | sed -n 's/.*"browser_download_url": "\(.*installer-signed\.pkg\)".*/\1/p' \
+    | head -n 1
+}
+
+normalize_version() {
+  printf '%s\n' "$1" | sed -n 's/.*\([0-9][0-9.]*[0-9]\).*/\1/p' | head -n 1
+}
+
 echo "Apple container installer"
 
 ARCH=$(uname -m 2>/dev/null || echo unknown)
@@ -84,21 +111,23 @@ else
   echo "warning: sw_vers unavailable; cannot verify macOS version"
 fi
 
-if command -v container >/dev/null 2>&1 && [ "$FORCE" -ne 1 ]; then
-  echo "container is already installed: $(command -v container)"
+INSTALLED_VERSION=""
+if command -v container >/dev/null 2>&1; then
+  echo "container_path: $(command -v container)"
   if container --version >/dev/null 2>&1; then
-    container --version
+    INSTALLED_VERSION=$(container --version 2>&1 | head -n 1)
+    echo "container_version: $INSTALLED_VERSION"
+  else
+    echo "container_version: unavailable"
   fi
-  echo "Use --force to reinstall."
-  exit 0
+else
+  echo "container_path: missing"
 fi
 
 need_cmd curl
 need_cmd grep
 need_cmd sed
 need_cmd head
-need_cmd mktemp
-need_cmd sudo
 
 if [ -n "$VERSION" ]; then
   API_URL="https://api.github.com/repos/$REPO/releases/tags/$VERSION"
@@ -107,10 +136,42 @@ else
 fi
 
 echo "fetching release metadata: $API_URL"
-PKG_URL=$(curl -fsSL "$API_URL" \
-  | grep '"browser_download_url":' \
-  | sed -n 's/.*"browser_download_url": "\(.*installer-signed\.pkg\)".*/\1/p' \
-  | head -n 1)
+RELEASE_JSON=$(latest_release_json)
+LATEST_TAG=$(printf '%s\n' "$RELEASE_JSON" | json_tag_name)
+PKG_URL=$(printf '%s\n' "$RELEASE_JSON" | json_signed_pkg_url)
+
+if [ -n "$LATEST_TAG" ]; then
+  echo "latest_release: $LATEST_TAG"
+else
+  echo "latest_release: unknown"
+fi
+
+if [ "$CHECK_ONLY" -eq 1 ]; then
+  if ! command -v container >/dev/null 2>&1; then
+    echo "status: not installed"
+    exit 0
+  fi
+  LOCAL_NORMALIZED=$(normalize_version "$INSTALLED_VERSION")
+  LATEST_NORMALIZED=$(normalize_version "$LATEST_TAG")
+  if [ -n "$LOCAL_NORMALIZED" ] && [ -n "$LATEST_NORMALIZED" ]; then
+    if [ "$LOCAL_NORMALIZED" = "$LATEST_NORMALIZED" ]; then
+      echo "status: up to date"
+    else
+      echo "status: update may be available"
+    fi
+  else
+    echo "status: installed; compare version manually"
+  fi
+  exit 0
+fi
+
+if command -v container >/dev/null 2>&1 && [ "$FORCE" -ne 1 ]; then
+  echo "container is already installed. Use --check to compare releases or --force to reinstall/update."
+  exit 0
+fi
+
+need_cmd mktemp
+need_cmd sudo
 
 if [ -z "$PKG_URL" ]; then
   echo "could not find a signed installer package in release metadata" >&2

@@ -125,6 +125,7 @@ class TranslateDockerCommandTests(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
         self.assertIn("Install Apple's native container CLI", result.stdout)
+        self.assertIn("--check", result.stdout)
 
     def test_update_script_is_executable_and_has_help(self):
         self.assertTrue(UPDATE_SCRIPT.exists())

@@ -1,6 +1,6 @@
 # Installation
 
-Use this file when the user asks to install, set up, upgrade, or repair Apple container.
+Use this file when the skill checks, installs, sets up, upgrades, or repairs Apple container.
 
 ## Official Source
 
@@ -18,14 +18,15 @@ container system start
 
 ## Agent Workflow
 
-1. Check whether `container` already exists.
-2. If installed, print path and version. Ask before reinstalling, downgrading, or upgrading.
-3. Check architecture and macOS version.
-4. Download the latest signed installer package from `https://github.com/apple/container/releases/latest`.
-5. Install the package with `/usr/sbin/installer`.
-6. Run `container --version`.
-7. Start the system service with `container system start` unless the user requested otherwise.
-8. Verify with `container system status` if available.
+1. Run `scripts/install-container.sh --check` before Apple `container` runtime operations.
+2. Check whether `container` already exists.
+3. If installed, print path and version, then compare with the latest official GitHub release when possible.
+4. Check architecture and macOS version.
+5. If missing, or if the user asked for setup/update and a newer official release appears available, download the latest signed installer package from `https://github.com/apple/container/releases/latest`.
+6. Install the package with `/usr/sbin/installer`.
+7. Run `container --version`.
+8. Start the system service with `container system start` unless the user requested otherwise.
+9. Verify with `container system status` if available.
 
 ## Script
 
@@ -37,6 +38,7 @@ skills/apple-container/scripts/install-container.sh
 
 Options:
 
+- `--check` - check local installation and latest official release without installing.
 - `--force` - reinstall even when `container` already exists.
 - `--no-start` - install but do not start the system service.
 - `--version VERSION` - install a specific GitHub release tag such as `0.11.0`.

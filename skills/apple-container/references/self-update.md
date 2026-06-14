@@ -1,10 +1,16 @@
 # Self Update
 
-Use this file when the user asks to update, upgrade, refresh, or sync the Apple Container Operator skill itself.
+Use this file when the skill performs its built-in freshness check, or when the user asks to update, upgrade, refresh, or sync the Apple Container Operator skill itself.
 
 ## Behavior
 
-The skill can update itself from the upstream repository:
+The skill should check itself at the start of normal use:
+
+```sh
+skills/apple-container/scripts/update-skill.sh --check
+```
+
+If the check reports an available update and there are no local conflicts, update from the upstream repository:
 
 ```sh
 skills/apple-container/scripts/update-skill.sh
@@ -35,4 +41,5 @@ skills/apple-container/scripts/update-skill.sh --dry-run
 - Do not modify unrelated agent skills.
 - If the repository has local uncommitted changes, the git update path should fail rather than merge or overwrite them.
 - If a copied skill directory is updated, the updater records the upstream commit in `.apple-container-source-revision`.
+- Treat check failures as non-fatal; continue with the current skill and report that freshness could not be verified.
 - Report the updated revision and rerun a relevant smoke check after updating.
