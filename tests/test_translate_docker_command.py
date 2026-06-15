@@ -1,6 +1,8 @@
 import json
+import os
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -137,6 +139,132 @@ class TranslateDockerCommandTests(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
         self.assertIn("Update the apple-container skill", result.stdout)
+        self.assertIn("--refresh", result.stdout)
+
+    def test_update_check_caches_remote_revision_until_refresh(self):
+        current_revision = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            check=True,
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+        ).stdout.strip()
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            bin_dir = temp_path / "bin"
+            cache_dir = temp_path / "cache"
+            counter = temp_path / "curl-count"
+            bin_dir.mkdir()
+            (bin_dir / "curl").write_text(
+                f"#!/bin/sh\n"
+                f"count=$(cat '{counter}' 2>/dev/null || echo 0)\n"
+                f"count=$((count + 1))\n"
+                f"printf '%s\\n' \"$count\" > '{counter}'\n"
+                f"printf '%s\\n' '{{\"sha\": \"{current_revision}\"}}'\n"
+            )
+            (bin_dir / "curl").chmod(0o755)
+
+            env = os.environ.copy()
+            env["PATH"] = f"{bin_dir}{os.pathsep}{env['PATH']}"
+            env["APPLE_CONTAINER_CHECK_CACHE_DIR"] = str(cache_dir)
+
+            first = subprocess.run(
+                [str(UPDATE_SCRIPT), "--check"],
+                check=True,
+                cwd=ROOT,
+                env=env,
+                text=True,
+                stdout=subprocess.PIPE,
+            )
+            second = subprocess.run(
+                [str(UPDATE_SCRIPT), "--check"],
+                check=True,
+                cwd=ROOT,
+                env=env,
+                text=True,
+                stdout=subprocess.PIPE,
+            )
+            refreshed = subprocess.run(
+                [str(UPDATE_SCRIPT), "--check", "--refresh"],
+                check=True,
+                cwd=ROOT,
+                env=env,
+                text=True,
+                stdout=subprocess.PIPE,
+            )
+
+            self.assertIn("freshness_cache: miss", first.stdout)
+            self.assertIn("status: up to date", first.stdout)
+            self.assertIn("freshness_cache: hit", second.stdout)
+            self.assertIn("status: up to date", second.stdout)
+            self.assertIn("freshness_cache: miss", refreshed.stdout)
+            self.assertIn("status: up to date", refreshed.stdout)
+            self.assertEqual(counter.read_text().strip(), "2")
+
+    def test_install_check_caches_remote_release_metadata_until_refresh(self):
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            bin_dir = temp_path / "bin"
+            cache_dir = temp_path / "cache"
+            counter = temp_path / "curl-count"
+            bin_dir.mkdir()
+            (bin_dir / "curl").write_text(
+                f"#!/bin/sh\n"
+                f"count=$(cat '{counter}' 2>/dev/null || echo 0)\n"
+                f"count=$((count + 1))\n"
+                f"printf '%s\\n' \"$count\" > '{counter}'\n"
+                "cat <<'EOF'\n"
+                '{"tag_name": "1.0.0", "assets": [{"browser_download_url": "https://example.test/container-1.0.0-installer-signed.pkg"}]}\n'
+                "EOF\n"
+            )
+            (bin_dir / "curl").chmod(0o755)
+            (bin_dir / "uname").write_text("#!/bin/sh\nprintf '%s\\n' arm64\n")
+            (bin_dir / "uname").chmod(0o755)
+            (bin_dir / "sw_vers").write_text("#!/bin/sh\nprintf '%s\\n' 26.5.1\n")
+            (bin_dir / "sw_vers").chmod(0o755)
+            (bin_dir / "container").write_text(
+                "#!/bin/sh\n"
+                "if [ \"$1\" = \"--version\" ]; then\n"
+                "  printf '%s\\n' 'container CLI version 1.0.0'\n"
+                "  exit 0\n"
+                "fi\n"
+                "exit 1\n"
+            )
+            (bin_dir / "container").chmod(0o755)
+
+            env = os.environ.copy()
+            env["PATH"] = f"{bin_dir}{os.pathsep}{env['PATH']}"
+            env["APPLE_CONTAINER_CHECK_CACHE_DIR"] = str(cache_dir)
+
+            first = subprocess.run(
+                [str(INSTALL_SCRIPT), "--check"],
+                check=True,
+                cwd=ROOT,
+                env=env,
+                text=True,
+                stdout=subprocess.PIPE,
+            )
+            second = subprocess.run(
+                [str(INSTALL_SCRIPT), "--check"],
+                check=True,
+                cwd=ROOT,
+                env=env,
+                text=True,
+                stdout=subprocess.PIPE,
+            )
+            refreshed = subprocess.run(
+                [str(INSTALL_SCRIPT), "--check", "--refresh"],
+                check=True,
+                cwd=ROOT,
+                env=env,
+                text=True,
+                stdout=subprocess.PIPE,
+            )
+
+            self.assertIn("freshness_cache: miss", first.stdout)
+            self.assertIn("freshness_cache: hit", second.stdout)
+            self.assertIn("freshness_cache: miss", refreshed.stdout)
+            self.assertEqual(counter.read_text().strip(), "2")
 
     def test_repo_analyzer_url_requires_clone_confirmation(self):
         data = analyze_repo("https://github.com/example/project")

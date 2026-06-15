@@ -24,7 +24,7 @@ Apple Container Operator helps AI agents safely understand, translate, install, 
 
 ## Setup
 
-Every time this skill is invoked, the agent should perform a lightweight freshness check: verify whether Apple Container Operator itself is current; when the request involves Apple `container`, also check whether the local `container` CLI is installed and whether a newer release may be available. Users should not need to remember a separate "update this skill" prompt.
+When this skill is invoked, the agent should perform a lightweight freshness check with bounded network use: verify whether Apple Container Operator itself is current; when the request involves Apple `container`, also check whether the local `container` CLI is installed and whether a newer release may be available. Remote freshness checks are cached for 24 hours by default. Set `APPLE_CONTAINER_CHECK_TTL_SECONDS` to another interval, such as `604800` for seven days, or pass `--refresh` when the user explicitly asks to check latest versions now.
 
 ### Install This Skill Pack
 
@@ -90,7 +90,7 @@ skills/apple-container/scripts/analyze-repo-setup.py /path/to/repo
 skills/apple-container/scripts/update-skill.sh --check
 ```
 
-before assuming local support for commands or flags.
+before assuming local support for commands or flags. The `--check` commands use a 24-hour remote metadata TTL by default; use `--refresh` to bypass the cache.
 
 ### Codex Via AGENTS.md
 

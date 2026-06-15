@@ -20,7 +20,7 @@ container system start
 
 1. Run `scripts/install-container.sh --check` before Apple `container` runtime operations.
 2. Check whether `container` already exists.
-3. If installed, print path and version, then compare with the latest official GitHub release when possible.
+3. If installed, print path and version, then compare with the latest official GitHub release when possible. Remote release metadata is cached for 24 hours by default; use `--refresh` only when the user explicitly asks for a latest-version check now.
 4. Check architecture and macOS version.
 5. If missing, or if the user asked for setup/update and a newer official release appears available, download the latest signed installer package from `https://github.com/apple/container/releases/latest`.
 6. Install the package with `/usr/sbin/installer`.
@@ -39,6 +39,7 @@ skills/apple-container/scripts/install-container.sh
 Options:
 
 - `--check` - check local installation and latest official release without installing.
+- `--refresh` - ignore cached release metadata and check GitHub now.
 - `--force` - reinstall even when `container` already exists.
 - `--no-start` - install but do not start the system service.
 - `--version VERSION` - install a specific GitHub release tag such as `0.11.0`.

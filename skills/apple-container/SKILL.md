@@ -11,9 +11,9 @@ Operate Apple's native `container` runtime safely and conservatively. First iden
 
 ## Built-In Freshness Checks
 
-At the start of a request that uses this skill, run `scripts/update-skill.sh --check` as a best-effort check. If a skill update is available and the local checkout has no conflicting changes, update the skill before continuing and report the new revision. If the check fails, continue with the current skill and mention the check failure briefly.
+At the start of a request that uses this skill, run `scripts/update-skill.sh --check` as a best-effort freshness check. The script caches remote freshness results for 24 hours by default, so normal skill use does not hit the network every time. Set `APPLE_CONTAINER_CHECK_TTL_SECONDS` to tune the interval, or pass `--refresh` when the user explicitly asks to check the latest version now. If a skill update is available and the local checkout has no conflicting changes, update the skill before continuing and report the new revision. If the check fails, continue with the current skill and mention the check failure briefly.
 
-When the request involves the Apple `container` runtime, also run `scripts/install-container.sh --check` before assuming the local CLI is installed or current. If `container` is missing and the user asked to install/setup/run a container workflow, use the installation workflow. If a newer Apple container release appears available, prefer installing the latest official package when the user asked for setup/update; otherwise report the available update and continue conservatively.
+When the request involves the Apple `container` runtime, also run `scripts/install-container.sh --check` before assuming the local CLI is installed or current. This always checks local installation state, while remote release metadata is cached for 24 hours by default. Set `APPLE_CONTAINER_CHECK_TTL_SECONDS` to tune the interval, or pass `--refresh` when the user explicitly asks to check the latest Apple release now. If `container` is missing and the user asked to install/setup/run a container workflow, use the installation workflow. If a newer Apple container release appears available, prefer installing the latest official package when the user asked for setup/update; otherwise report the available update and continue conservatively.
 
 ## Intent-First Operation
 
@@ -64,8 +64,8 @@ Diagnose in order: system, image, container status, logs, command/configuration,
 ## Script Usage
 
 - Run `scripts/install-container.sh` when the user explicitly asks to install or set up Apple container.
-- Run `scripts/update-skill.sh --check` at the start of skill use, and `scripts/update-skill.sh` when the check reports an available safe update.
-- Run `scripts/install-container.sh --check` before Apple `container` runtime operations.
+- Run `scripts/update-skill.sh --check` at the start of skill use; the default remote freshness cache TTL is 24 hours. Use `--refresh` for explicit latest-version requests, and run `scripts/update-skill.sh` when the check reports an available safe update.
+- Run `scripts/install-container.sh --check` before Apple `container` runtime operations; local state is checked each time, while remote release metadata uses the default 24-hour TTL unless `--refresh` is supplied.
 - Run `scripts/detect-container.sh` to detect the local `container` CLI, version, system status, CPU architecture, and macOS version.
 - Run `scripts/inspect-state.sh` for safe read-only diagnostics.
 - Run `scripts/translate-docker-command.py "docker ps"` to convert Docker-style commands into JSON intent records.

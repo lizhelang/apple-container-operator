@@ -6,16 +6,18 @@ START_SERVICE=1
 FORCE=0
 CHECK_ONLY=0
 VERSION=""
+REFRESH=0
 
 usage() {
   cat <<'EOF'
-Usage: install-container.sh [--check] [--force] [--no-start] [--version VERSION]
+Usage: install-container.sh [--check] [--refresh] [--force] [--no-start] [--version VERSION]
 
 Install Apple's native container CLI from the official apple/container GitHub
 release signed installer package.
 
 Options:
   --check            Check local install and latest release without installing.
+  --refresh          Ignore cached release metadata and check GitHub now.
   --force            Reinstall even when container already exists.
   --no-start         Do not run "container system start" after installation.
   --version VERSION  Install a specific release tag, for example 0.11.0.
@@ -30,6 +32,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --check)
       CHECK_ONLY=1
+      ;;
+    --refresh)
+      REFRESH=1
       ;;
     --no-start)
       START_SERVICE=0
@@ -63,11 +68,24 @@ need_cmd() {
 }
 
 latest_release_json() {
-  if [ -n "$VERSION" ]; then
-    curl -fsSL "https://api.github.com/repos/$REPO/releases/tags/$VERSION"
-  else
-    curl -fsSL "https://api.github.com/repos/$REPO/releases/latest"
+  cache_file=$(release_cache_file)
+  if [ "$CHECK_ONLY" -eq 1 ] && cache_is_fresh "$cache_file"; then
+    echo "freshness_cache: hit" >&2
+    cat "$cache_file"
+    return 0
   fi
+
+  if [ -n "$VERSION" ]; then
+    json=$(curl -fsSL "https://api.github.com/repos/$REPO/releases/tags/$VERSION")
+  else
+    json=$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest")
+  fi
+  if [ -n "$json" ] && [ "$CHECK_ONLY" -eq 1 ]; then
+    mkdir -p "$(dirname "$cache_file")" 2>/dev/null || true
+    printf '%s\n' "$json" > "$cache_file" 2>/dev/null || true
+  fi
+  [ "$CHECK_ONLY" -eq 1 ] && echo "freshness_cache: miss" >&2
+  printf '%s\n' "$json"
 }
 
 json_tag_name() {
@@ -81,7 +99,64 @@ json_signed_pkg_url() {
 }
 
 normalize_version() {
-  printf '%s\n' "$1" | sed -n 's/.*\([0-9][0-9.]*[0-9]\).*/\1/p' | head -n 1
+  printf '%s\n' "$1" | sed -n 's/^[^0-9]*\([0-9][0-9.]*[0-9]\).*/\1/p' | head -n 1
+}
+
+ttl_seconds() {
+  value=${APPLE_CONTAINER_CHECK_TTL_SECONDS:-86400}
+  case "$value" in
+    ''|*[!0-9]*)
+      echo 86400
+      ;;
+    *)
+      echo "$value"
+      ;;
+  esac
+}
+
+cache_dir() {
+  if [ -n "${APPLE_CONTAINER_CHECK_CACHE_DIR:-}" ]; then
+    printf '%s\n' "$APPLE_CONTAINER_CHECK_CACHE_DIR"
+  elif [ -n "${XDG_CACHE_HOME:-}" ]; then
+    printf '%s\n' "$XDG_CACHE_HOME/apple-container-operator"
+  else
+    printf '%s\n' "$HOME/.cache/apple-container-operator"
+  fi
+}
+
+cache_key() {
+  printf '%s\n' "$1" | sed 's/[^A-Za-z0-9._-]/_/g'
+}
+
+file_mtime() {
+  if stat -f %m "$1" >/dev/null 2>&1; then
+    stat -f %m "$1"
+  else
+    stat -c %Y "$1" 2>/dev/null || echo 0
+  fi
+}
+
+cache_is_fresh() {
+  file=$1
+  ttl=$(ttl_seconds)
+  if [ "$REFRESH" -eq 1 ] || [ "$ttl" -eq 0 ] || [ ! -f "$file" ]; then
+    return 1
+  fi
+  now=$(date +%s)
+  mtime=$(file_mtime "$file")
+  age=$((now - mtime))
+  [ "$age" -ge 0 ] && [ "$age" -lt "$ttl" ]
+}
+
+release_cache_file() {
+  dir=$(cache_dir)
+  if [ -n "$VERSION" ]; then
+    release_ref="tag-$VERSION"
+  else
+    release_ref="latest"
+  fi
+  key=$(cache_key "$REPO-$release_ref-release-json")
+  printf '%s/%s\n' "$dir" "$key"
 }
 
 echo "Apple container installer"
@@ -128,6 +203,7 @@ need_cmd curl
 need_cmd grep
 need_cmd sed
 need_cmd head
+need_cmd mktemp
 
 if [ -n "$VERSION" ]; then
   API_URL="https://api.github.com/repos/$REPO/releases/tags/$VERSION"
@@ -136,7 +212,10 @@ else
 fi
 
 echo "fetching release metadata: $API_URL"
-RELEASE_JSON=$(latest_release_json)
+RELEASE_STDERR=$(mktemp "${TMPDIR:-/tmp}/apple-container-release-cache.XXXXXX")
+RELEASE_JSON=$(latest_release_json 2>"$RELEASE_STDERR")
+cat "$RELEASE_STDERR"
+rm -f "$RELEASE_STDERR"
 LATEST_TAG=$(printf '%s\n' "$RELEASE_JSON" | json_tag_name)
 PKG_URL=$(printf '%s\n' "$RELEASE_JSON" | json_signed_pkg_url)
 

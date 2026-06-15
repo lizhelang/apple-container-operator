@@ -24,7 +24,7 @@ Apple Container Operator 让 AI agent 安全地理解、翻译、安装、更新
 
 ## 快速开始
 
-每次调用这个 skill 时，agent 应该先做一次轻量更新检查：确认 Apple Container Operator skill 是否为最新版本；涉及 Apple `container` 的操作时，也检查本机 `container` 是否已安装以及是否可能有新版本。用户不需要专门记得发送“更新 skill”的提示词。
+调用这个 skill 时，agent 应该做一次有频率限制的轻量更新检查：确认 Apple Container Operator skill 是否为最新版本；涉及 Apple `container` 的操作时，也检查本机 `container` 是否已安装以及是否可能有新版本。远端 freshness 检查默认缓存 24 小时。可以用 `APPLE_CONTAINER_CHECK_TTL_SECONDS` 改成别的间隔，比如 `604800` 表示 7 天；用户明确要求“现在检查最新版”时，可以传 `--refresh` 跳过缓存。
 
 ### 安装这个 Skill Pack
 
@@ -90,7 +90,7 @@ skills/apple-container/scripts/analyze-repo-setup.py /path/to/repo
 skills/apple-container/scripts/update-skill.sh --check
 ```
 
-在假设本地命令或 flag 可用之前，agent 应该先检查 `container --help` 和相关子命令 help。
+在假设本地命令或 flag 可用之前，agent 应该先检查 `container --help` 和相关子命令 help。`--check` 命令默认使用 24 小时远端元数据 TTL；需要强制刷新时加 `--refresh`。
 
 ### Codex
 
