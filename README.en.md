@@ -32,13 +32,16 @@ When this skill is invoked, the agent should perform a lightweight freshness che
 If your agent supports [skills.sh](https://skills.sh/), install it directly:
 
 ```sh
-npx skills add lizhelang/apple-container-operator --skill apple-container
+npx skills add lizhelang/apple-container-operator --skill apple-container-operator
 ```
+
+`apple-container-operator` is the discoverable public name. `apple-container` remains available as a stable alias for existing install commands.
 
 Or open the skills.sh page to inspect and install it:
 
 ```text
 https://skills.sh/lizhelang/apple-container-operator/apple-container
+https://skills.sh/lizhelang/apple-container-operator/apple-container-operator
 ```
 
 Send this prompt to your AI coding agent:

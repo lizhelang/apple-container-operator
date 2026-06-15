@@ -6,6 +6,7 @@
       "title": "Apple Container",
       "description": "Operate Apple's native container runtime from AI agent workflows.",
       "skills": [
+        "apple-container-operator",
         "apple-container"
       ]
     }

@@ -32,13 +32,16 @@ Apple Container Operator 让 AI agent 安全地理解、翻译、安装、更新
 如果你的 agent 支持 [skills.sh](https://skills.sh/)，可以直接安装：
 
 ```sh
-npx skills add lizhelang/apple-container-operator --skill apple-container
+npx skills add lizhelang/apple-container-operator --skill apple-container-operator
 ```
+
+`apple-container-operator` 是方便搜索的公开名称；`apple-container` 仍然保留为兼容旧安装命令的稳定别名。
 
 或打开 skills.sh 页面查看和安装：
 
 ```text
 https://skills.sh/lizhelang/apple-container-operator/apple-container
+https://skills.sh/lizhelang/apple-container-operator/apple-container-operator
 ```
 
 把下面这段发给你的 AI coding agent：
