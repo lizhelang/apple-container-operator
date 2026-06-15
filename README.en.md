@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="./LICENSE"><img alt="license Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue" /></a>
+  <a href="https://skills.sh/lizhelang/apple-container-operator/apple-container"><img alt="skills.sh installs" src="https://skills.sh/b/lizhelang/apple-container-operator" /></a>
   <img alt="skill apple-container" src="https://img.shields.io/badge/skill-apple--container-5B6B8C" />
   <img alt="runtime Apple container" src="https://img.shields.io/badge/runtime-Apple%20container-111827" />
 </p>
@@ -27,6 +28,18 @@ Apple Container Operator helps AI agents safely understand, translate, install, 
 When this skill is invoked, the agent should perform a lightweight freshness check with bounded network use: verify whether Apple Container Operator itself is current; when the request involves Apple `container`, also check whether the local `container` CLI is installed and whether a newer release may be available. Remote freshness checks are cached for 24 hours by default. Set `APPLE_CONTAINER_CHECK_TTL_SECONDS` to another interval, such as `604800` for seven days, or pass `--refresh` when the user explicitly asks to check latest versions now.
 
 ### Install This Skill Pack
+
+If your agent supports [skills.sh](https://skills.sh/), install it directly:
+
+```sh
+npx skills add lizhelang/apple-container-operator --skill apple-container
+```
+
+Or open the skills.sh page to inspect and install it:
+
+```text
+https://skills.sh/lizhelang/apple-container-operator/apple-container
+```
 
 Send this prompt to your AI coding agent:
 

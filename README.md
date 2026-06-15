@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="./LICENSE"><img alt="license Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue" /></a>
+  <a href="https://skills.sh/lizhelang/apple-container-operator/apple-container"><img alt="skills.sh installs" src="https://skills.sh/b/lizhelang/apple-container-operator" /></a>
   <img alt="skill apple-container" src="https://img.shields.io/badge/skill-apple--container-5B6B8C" />
   <img alt="runtime Apple container" src="https://img.shields.io/badge/runtime-Apple%20container-111827" />
 </p>
@@ -27,6 +28,18 @@ Apple Container Operator 让 AI agent 安全地理解、翻译、安装、更新
 调用这个 skill 时，agent 应该做一次有频率限制的轻量更新检查：确认 Apple Container Operator skill 是否为最新版本；涉及 Apple `container` 的操作时，也检查本机 `container` 是否已安装以及是否可能有新版本。远端 freshness 检查默认缓存 24 小时。可以用 `APPLE_CONTAINER_CHECK_TTL_SECONDS` 改成别的间隔，比如 `604800` 表示 7 天；用户明确要求“现在检查最新版”时，可以传 `--refresh` 跳过缓存。
 
 ### 安装这个 Skill Pack
+
+如果你的 agent 支持 [skills.sh](https://skills.sh/)，可以直接安装：
+
+```sh
+npx skills add lizhelang/apple-container-operator --skill apple-container
+```
+
+或打开 skills.sh 页面查看和安装：
+
+```text
+https://skills.sh/lizhelang/apple-container-operator/apple-container
+```
 
 把下面这段发给你的 AI coding agent：
 

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Apple Container",
+      "description": "Operate Apple's native container runtime from AI agent workflows.",
+      "skills": [
+        "apple-container"
+      ]
+    }
+  ]
+}
