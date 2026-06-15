@@ -1,6 +1,6 @@
 ---
 name: apple-container
-description: portable ai agent instructions for operating, installing, and updating apple's native container runtime workflows from natural language, docker-style commands, repository setup requests, and configuration adjustment requests. use when a user asks to install or update this apple-container skill, set up, run, stop, restart, inspect, debug, exec into, configure, recreate, clean up, migrate from docker, analyze a GitHub repository for Apple container setup, or troubleshoot local containers and images on macos with Apple container, including docker-style workflows such as docker run, docker ps, docker logs, docker exec, docker build, docker pull, docker stop, and compose-like service requests.
+description: Apple Container Operator skill for portable AI agent instructions that operate, install, update, troubleshoot, and migrate Apple's native container runtime workflows from natural language, Docker-style commands, repository setup requests, and configuration adjustment requests. Use when a user asks to install or update this apple-container skill, set up, run, stop, restart, inspect, debug, exec into, configure, recreate, clean up, migrate from Docker, analyze a GitHub repository for Apple container setup, or troubleshoot local containers and images on macOS with Apple container, including Docker-style workflows such as docker run, docker ps, docker logs, docker exec, docker build, docker pull, docker stop, and compose-like service requests.
 ---
 
 # Apple Container Operator
